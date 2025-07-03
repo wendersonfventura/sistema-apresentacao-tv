@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Apresentação - Modo TV</title>
+    <link rel="stylesheet" href="display.css">
+</head>
+<body>
+    <!-- Container principal -->
+    <div id="display-container" class="display-container">
+        
+        <!-- Slide de imagem -->
+        <div id="image-slide" class="slide image-slide">
+            <img id="current-image" src="" alt="Apresentação" class="slide-image">
+            <div class="slide-info">
+                <div class="slide-counter">
+                    <span id="current-slide">1</span> / <span id="total-slides">1</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide de sistema -->
+        <div id="system-slide" class="slide system-slide">
+            <iframe id="current-system" src="" frameborder="0" class="system-frame"></iframe>
+            <div class="system-info">
+                <div class="system-name" id="current-system-name">Sistema</div>
+                <div class="system-indicator">
+                    <i class="fas fa-circle pulse"></i>
+                    <span>AO VIVO</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading screen -->
+        <div id="loading-screen" class="loading-screen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <h2>Carregando Sistema de Apresentação</h2>
+                <p>Preparando conteúdo para exibição...</p>
+            </div>
+        </div>
+
+        <!-- Error screen -->
+        <div id="error-screen" class="error-screen" style="display: none;">
+            <div class="error-content">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Erro de Conexão</h2>
+                <p>Não foi possível carregar o conteúdo. Tentando reconectar...</p>
+                <div class="reconnect-timer">
+                    Próxima tentativa em: <span id="reconnect-countdown">10</span>s
+                </div>
+            </div>
+        </div>
+
+        <!-- Status bar (opcional, pode ser ocultada) -->
+        <div id="status-bar" class="status-bar">
+            <div class="status-left">
+                <span class="status-time" id="current-time"></span>
+                <span class="status-date" id="current-date"></span>
+            </div>
+            <div class="status-right">
+                <div class="status-indicator online">
+                    <i class="fas fa-circle"></i>
+                    <span>ONLINE</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div id="progress-bar" class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+    </div>
+
+    <!-- Font Awesome para ícones -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="display.js"></script>
+</body>
+</html>
+

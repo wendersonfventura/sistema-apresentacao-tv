@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Apresentação - Administração</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="login-screen" class="login-container">
+        <div class="login-box">
+            <h2><i class="fas fa-tv"></i> Sistema de Apresentação</h2>
+            <p>Acesso Administrativo</p>
+            <form id="login-form">
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Senha de acesso" required>
+                </div>
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+            </form>
+            <div id="login-error" class="error-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- Interface Administrativa -->
+    <div id="admin-interface" class="admin-container" style="display: none;">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <h1><i class="fas fa-tv"></i> Sistema de Apresentação</h1>
+            </div>
+            <div class="header-right">
+                <a href="/display" target="_blank" class="btn-display">
+                    <i class="fas fa-external-link-alt"></i> Abrir Modo TV
+                </a>
+                <button id="logout-btn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <a href="#images" class="nav-item active" data-section="images">
+                    <i class="fas fa-images"></i>
+                    <span>Imagens</span>
+                </a>
+                <a href="#systems" class="nav-item" data-section="systems">
+                    <i class="fas fa-link"></i>
+                    <span>Links de Sistemas</span>
+                </a>
+                <a href="#settings" class="nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+                <a href="#tv-preview" class="nav-item" data-section="tv-preview">
+                    <i class="fas fa-tv"></i>
+                    <span>Preview da TV</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Seção de Imagens -->
+            <section id="images-section" class="content-section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-images"></i> Gerenciar Imagens</h2>
+                    <p>Faça upload e organize as imagens que serão exibidas nas TVs</p>
+                </div>
+
+                <!-- Upload Area -->
+                <div class="upload-area">
+                    <div class="upload-box" id="upload-box">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Arraste imagens aqui ou clique para selecionar</h3>
+                        <p>Formatos aceitos: JPG, PNG (máx. 10MB)</p>
+                        <input type="file" id="file-input" multiple accept=".jpg,.jpeg,.png" style="display: none;">
+                    </div>
+                </div>
+
+                <!-- Lista de Imagens -->
+                <div class="images-list">
+                    <div class="list-header">
+                        <h3>Imagens Cadastradas</h3>
+                        <div class="list-actions">
+                            <button id="reorder-btn" class="btn-secondary">
+                                <i class="fas fa-sort"></i> Reordenar
+                            </button>
+                        </div>
+                    </div>
+                    <div id="images-container" class="images-grid">
+                        <!-- Imagens serão carregadas aqui via JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção de Links de Sistemas -->
+            <section id="systems-section" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-link"></i> Links de Sistemas</h2>
+                    <p>Configure os links dos sistemas que serão exibidos alternadamente</p>
+                </div>
+
+                <!-- Formulário para Adicionar Link -->
+                <div class="add-system-form">
+                    <h3>Adicionar Novo Sistema</h3>
+                    <form id="system-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="system-name">Nome do Sistema</label>
+                                <input type="text" id="system-name" placeholder="Ex: DSSBox - Painel de Agentes" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="system-url">URL do Sistema</label>
+                                <input type="url" id="system-url" placeholder="https://..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="system-duration">Tempo de Exibição (segundos)</label>
+                                <input type="number" id="system-duration" value="30" min="5" max="300">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-plus"></i> Adicionar Sistema
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Lista de Sistemas -->
+                <div class="systems-list">
+                    <h3>Sistemas Cadastrados</h3>
+                    <div id="systems-container">
+                        <!-- Sistemas serão carregados aqui via JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção de Configurações -->
+            <section id="settings-section" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-cog"></i> Configurações</h2>
+                    <p>Configure as opções gerais do sistema</p>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <h3><i class="fas fa-clock"></i> Configurações de Tempo</h3>
+                        <div class="form-group">
+                            <label for="default-image-duration">Tempo padrão para imagens (segundos)</label>
+                            <input type="number" id="default-image-duration" value="10" min="3" max="60">
+                        </div>
+                        <div class="form-group">
+                            <label for="default-system-duration">Tempo padrão para sistemas (segundos)</label>
+                            <input type="number" id="default-system-duration" value="30" min="10" max="300">
+                        </div>
+                        <button class="btn-primary">Salvar Configurações</button>
+                    </div>
+
+                    <div class="setting-card">
+                        <h3><i class="fas fa-info-circle"></i> Informações do Sistema</h3>
+                        <div class="info-item">
+                            <strong>Modo TV:</strong>
+                            <a href="/display" target="_blank" class="link">/display</a>
+                        </div>
+                        <div class="info-item">
+                            <strong>Status:</strong>
+                            <span class="status-active">Ativo</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Última atualização:</strong>
+                            <span id="last-update">--</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção de Preview da TV -->
+            <section id="tv-preview-section" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tv"></i> Preview da TV</h2>
+                    <p>Visualize em tempo real como está sendo exibido nas TVs</p>
+                </div>
+
+                <div class="tv-preview-container">
+                    <div class="tv-frame">
+                        <div class="tv-screen">
+                            <iframe id="tv-preview-iframe" src="/display.html" frameborder="0"></iframe>
+                        </div>
+                        <div class="tv-controls">
+                            <button id="refresh-preview" class="btn-secondary">
+                                <i class="fas fa-sync-alt"></i> Atualizar
+                            </button>
+                            <button id="fullscreen-preview" class="btn-primary">
+                                <i class="fas fa-expand"></i> Tela Cheia
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tv-info">
+                        <h3>Status da Exibição</h3>
+                        <div class="status-item">
+                            <span class="label">Conteúdo Atual:</span>
+                            <span id="current-content">--</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">Próximo Conteúdo:</span>
+                            <span id="next-content">--</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">Tempo Restante:</span>
+                            <span id="time-remaining">--</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">Status:</span>
+                            <span id="display-status" class="status-active">Online</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal de Edição de Imagem -->
+    <div id="image-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Imagem</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="edit-duration">Tempo de Exibição (segundos)</label>
+                    <input type="number" id="edit-duration" min="3" max="60">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-image-btn" class="btn-primary">Salvar</button>
+                <button class="modal-close btn-secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
+
